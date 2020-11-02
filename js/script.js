@@ -53,17 +53,16 @@
 //=============================
     const shirtColorMenu = document.getElementById('color');
     const shirtColorMenuLabel = shirtColorMenu.previousElementSibling;
+    shirtColorMenuLabel.textContent = 'Color:';
 
     function toggleColorMenu(show) {
         if(show) {
-            shirtColorMenuLabel.textContent = 'Color:';
-            removeBlankColorOption(shirtColorMenu);
-            shirtColorMenu.disabled = false;
+            shirtColorMenuLabel.style.display = 'inherit';
+            shirtColorMenu.hidden = false;
         }
         else {
-            shirtColorMenuLabel.textContent = 'Please select a T-shirt theme.';
-            addBlankColorOption(shirtColorMenu);
-            shirtColorMenu.disabled = true;
+            shirtColorMenuLabel.style.display = 'none';
+            shirtColorMenu.hidden = true;
         }
     }
 
@@ -83,38 +82,35 @@
     }
 
     toggleColorMenu(false);
-
-    function hideAllOptions(menu) {
-        let menuOptions = menu.children;
-        for(let i = 0; i < menuOptions.length; i++) {
-            menuOptions[i].hidden = true;
-        }
-    }
     
     const shirtDesignMenu = document.getElementById('design');
 
     shirtDesignMenu.addEventListener('change', (e) => {
         const shirtDesign = e.target.value;
         if(shirtDesign) {
-            toggleColorMenu(true);
             filterColors(shirtDesign);
+            toggleColorMenu(true);
         }
-        else {
+        else {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
             toggleColorMenu(false);
         }
     });
-
+    
+    const colorOptions = [...shirtColorMenu.children];
+    const punsColorOptions  = colorOptions.filter( option => option.textContent.toLowerCase().includes('puns') );
+    const heartColorOptions = colorOptions.filter( option => ! option.textContent.toLowerCase().includes('puns') );
+    
     function filterColors(design) {
-        const colorOptions = [...shirtColorMenu.children];
-        colorOptions.forEach( option => option.hidden = false );
-        if(design === 'js puns') {
-            const heartColorOptions = colorOptions.filter( option => ! (option.textContent.toLowerCase().includes('puns')) );
+        if( design.includes('puns') ) {
+            punsColorOptions.forEach( option => option.hidden = false );
+            punsColorOptions[0].selected = true;
             heartColorOptions.forEach( option => option.hidden = true );
         }
-        else if(design === 'heart js') {
-            const punsColorOptions = colorOptions.filter( option => option.textContent.toLowerCase().includes('puns') );
+        else {
+            heartColorOptions.forEach( option => option.hidden = false );
+            heartColorOptions[0].selected = true;
             punsColorOptions.forEach( option => option.hidden = true );
-        }
+        }                                      
     }
 
 //========================================
@@ -122,9 +118,26 @@
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
     
+    let costs = [];
     activitiesFieldset.addEventListener('click', e => {
         const elementName = e.target.tagName;
         if(elementName === 'INPUT') {
-            
+            const checkbox = e.target;
+            if(checkbox.checked){
+                costs.push(checkbox.data-cost);
+            }
+            else {
+                costs.pop(checkbox.data-cost);
+            }
         }
     });
+
+    function updateTotalDisplay(costs) {
+        switch(costs.length) {
+            case 0:
+                break;
+            case 1:
+                break;
+            default:
+        }
+    }
