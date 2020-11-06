@@ -118,26 +118,22 @@
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
     
-    let costs = [];
+    let total = 0;
+
     activitiesFieldset.addEventListener('click', e => {
         const elementName = e.target.tagName;
         if(elementName === 'INPUT') {
             const checkbox = e.target;
+            const cost = parseInt( checkbox.getAttribute('data-cost') );
             if(checkbox.checked){
-                costs.push(checkbox.data-cost);
+                // costs.push(checkbox.getAttribute("data-cost"));
+               total += cost;
             }
             else {
-                costs.pop(checkbox.data-cost);
+                // costs.pop(checkbox.getAttribute("data-cost"));
+               total -= cost;
             }
         }
     });
 
-    function updateTotalDisplay(costs) {
-        switch(costs.length) {
-            case 0:
-                break;
-            case 1:
-                break;
-            default:
-        }
-    }
+    
