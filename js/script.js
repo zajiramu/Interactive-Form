@@ -119,6 +119,7 @@
     const activitiesFieldset = document.querySelector('.activities');
     
     let total = 0;
+    let totalDisplay = ``;
 
     activitiesFieldset.addEventListener('click', e => {
         const elementName = e.target.tagName;
@@ -136,4 +137,6 @@
         }
     });
 
-    
+    function updateTotalDisplay(total) {
+        
+    }
