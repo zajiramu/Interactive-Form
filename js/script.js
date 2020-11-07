@@ -117,9 +117,6 @@
 // (6) - "Register for Activities" section
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
-    
-    const totalSpan = document.createElement('span');
-    totalSpan.setAttribute('id', 'total-cost');
 
     let total = 0;
 
@@ -128,11 +125,23 @@
         if(elementName === 'INPUT') {
             const checkbox = e.target;
             const price = parseInt( checkbox.getAttribute('data-cost') );
-            total = (checkbox.checked ? total+price : total-price);
+            total = (checkbox.checked ? total+price : total-price);           
             updateTotalDisplay(total);
         }
     });
 
     function updateTotalDisplay(sum) {
-    
+        if(sum != 0) {
+            const span = activitiesFieldset.querySelector('span');
+            if(span) {
+                let regex = /\d{3}/g;
+                span.innerText = span.innerText.replace(regex, `${sum}`);
+            }
+            else {
+                const totalSpan = document.createElement('span');
+                totalSpan.innerText = `Total: $${sum}`;
+                activitiesFieldset.insertAdjacentElement('beforeend', totalSpan);
+            }
+        }
+        else { activitiesFieldset.getElementsByTagName('span')[0].remove(); }
     }
