@@ -127,6 +127,7 @@
             const price = parseInt( checkbox.getAttribute('data-cost') );
             total = (checkbox.checked ? total+price : total-price);           
             updateTotalDisplay(total);
+            const dayAndTime = checkbox.getAttribute('data-day-and-time');
         }
     });
 
@@ -145,3 +146,8 @@
         }
         else { activitiesFieldset.getElementsByTagName('span')[0].remove(); }
     }
+
+    function handleConflicts(dayAndTime) {
+
+    }
+
