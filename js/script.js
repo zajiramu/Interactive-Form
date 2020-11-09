@@ -151,3 +151,36 @@
 
     }
 
+//=============================
+// (7) - "Payment Info" section
+//=============================
+    const paymentMenu = document.getElementById('payment');
+
+    const ccDiv = document.getElementById('credit-card');
+
+    const paypalDiv = document.getElementById('paypal');
+
+    const bitcoinDiv = document.getElementById('bitcoin');
+
+    showPaymentDefaults();
+
+    paymentMenu.addEventListener('change', e =>{
+        const payMethod = e.target.value;
+        displayPaymentSection(payMethod);
+    });
+
+    function showPaymentDefaults() {
+        const paymentOptions = paymentMenu.children;
+       
+        const selectPayOption = paymentOptions[0];
+        selectPayOption.hidden = true;
+       
+        const ccPayOption = paymentOptions[1];
+        ccPayOption.selected = true;
+
+        paypalDiv.style.display = 'none';
+        bitcoinDiv.style.display = 'none';
+    }
+    
+    
+    }
