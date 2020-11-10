@@ -184,16 +184,20 @@
     function displayPaymentSection(paymentType) {
         switch(paymentType) {
             case 'credit card':
-                ccDiv.style.display = 
+                ccDiv.style.display = 'initial';
                 paypalDiv.style.display = 'none';
                 bitcoinDiv.style.display = 'none';
-
                 break;
-            case '':
+            case 'paypal':
+                ccDiv.style.display = 'none';
+                paypalDiv.style.display = 'initial';
+                bitcoinDiv.style.display = 'none';
                 break;
             default:
+                ccDiv.style.display = 'none';
+                paypalDiv.style.display = 'none';
+                bitcoinDiv.style.display = 'initial';
                 break;
-
         }
     }
     
