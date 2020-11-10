@@ -40,12 +40,8 @@
         const jobRole = e.target.value;
         // checks if the user chose the 'Other' option from the drop down 
         // menu by comparing the string in jobRole to the string 'other'
-        if(jobRole === 'other') {
-            // if 'Other' option was chosen by the user in the drop down
-            // the text field to allow the user to input their custom job
-            // title / role is displayed on the page
-            otherTitleInput.style.display = 'initial';
-        }
+        // shows text input field if user selects 'Other' from the drop down menu
+        jobRole === 'other' ? otherTitleInput.style.display = 'initial' : otherTitleInput.style.display = 'none'; 
     });
 
 //=============================
@@ -204,5 +200,7 @@
 //======================
 // (8) - Form Validation
 //======================
+    const emailInput = document.querySelector('#mail');
+    const shirtSizeMenu = document.querySelector('#size');
     
     
