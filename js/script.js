@@ -178,7 +178,7 @@
         const ccPayOption = paymentOptions[1];
         ccPayOption.selected = true;
 
-        displayPaymentSection(ccPayOption.getAttribute('value'));
+        displayPaymentSection(ccPayOption.value);
     }
 
     function displayPaymentSection(paymentType) {
@@ -201,5 +201,8 @@
         }
     }
     
+//======================
+// (8) - Form Validation
+//======================
     
     
