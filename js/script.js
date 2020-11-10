@@ -163,7 +163,7 @@
     const bitcoinDiv = document.getElementById('bitcoin');
 
     showPaymentDefaults();
-
+ 
     paymentMenu.addEventListener('change', e =>{
         const payMethod = e.target.value;
         displayPaymentSection(payMethod);
@@ -178,9 +178,24 @@
         const ccPayOption = paymentOptions[1];
         ccPayOption.selected = true;
 
-        paypalDiv.style.display = 'none';
-        bitcoinDiv.style.display = 'none';
+        displayPaymentSection(ccPayOption.getAttribute('value'));
+    }
+
+    function displayPaymentSection(paymentType) {
+        switch(paymentType) {
+            case 'credit card':
+                ccDiv.style.display = 
+                paypalDiv.style.display = 'none';
+                bitcoinDiv.style.display = 'none';
+
+                break;
+            case '':
+                break;
+            default:
+                break;
+
+        }
     }
     
     
-    }
+    
