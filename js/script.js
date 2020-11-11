@@ -205,6 +205,23 @@
      const submitButton = document.getElementsByTagName('button')[0];
     
      submitButton.addEventListener('click', e => {
-        
+        // checks if name handler returns false 
+        // i.e. no name was entered by user
+
+        // checks if email handler returns false
+        // i.e. no email / improperly formatted email was entered by user
+
+        // checks if activities handler returns false 
+        // i.e. no activity was selected 
+
+        // checks if credit card is the selected payment method
+            // checks if credit card number handler returned false 
+            // i.e. if user entered invalid or no cc number
+
+            // checks if zip code handler returned false 
+            // i.e. if user entered invalid or no zip code
+
+            // checks if cvv handler returned false 
+            // i.e. if user entered invalid or no cvv
      });
     
