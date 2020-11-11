@@ -200,7 +200,11 @@
 //======================
 // (8) - Form Validation
 //======================
-    const emailInput = document.querySelector('#mail');
-    const shirtSizeMenu = document.querySelector('#size');
+     const emailInput = document.querySelector('#mail');
+     const shirtSizeMenu = document.querySelector('#size');
+     const submitButton = document.getElementsByTagName('button')[0];
     
+     submitButton.addEventListener('click', e => {
+        
+     });
     
