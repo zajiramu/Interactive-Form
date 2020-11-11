@@ -190,10 +190,13 @@
      const emailInput = document.querySelector('#mail');
      const submitButton = document.getElementsByTagName('button')[0];
     
-     submitButton.addEventListener('click', e => {
+     submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
         // i.e. no name was entered by user
-
+        if( ! validateName() ) {
+            e.preventDefault();
+            nameInput.style.borderColor = 'red';
+        }
         // checks if email validator returns false
         // i.e. no email / improperly formatted email was entered by user
 
@@ -211,3 +214,6 @@
             // i.e. if user entered invalid or no cvv
      });
     
+     function validateName() {
+        return nameInput.value.length == 0 ? false : true;
+     }
