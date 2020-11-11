@@ -12,26 +12,13 @@
 // (4) - "Job Role" section
 //=========================
 
-    // sets otherTitleInput to a new HTML input element object
-    const otherTitleInput = document.createElement('input');
-    // sets type attritbute of HTML input element object in 
-    // otherTitleInput to 'text'
-    otherTitleInput.setAttribute('type', 'text');
-    // sets id attribute of HTML input element object in 
-    // otherTitleInput to 'text'
-    otherTitleInput.setAttribute('id','other-title');
-    // sets value property of HTML input element object in 
-    // otherTitleInput to the string 'Your Job Role'
-    otherTitleInput.value = 'Your Job Role';
-    // sets jobRoleMenu to the html select element object,
-    // retrieved by using its title
-    const jobRoleMenu = document.getElementById('title');
-    // inserts html input element object in otherTitleInput after
-    // the html select element object in jobRoleMenu
-    jobRoleMenu.insertAdjacentElement("afterend", otherTitleInput);
-    // sets display property of html input element object in otherTitleInput
-    // to 'none', hiding it on the page
+    // sets otherTitleInput to HTML input element object with id 'other-title'
+    const otherTitleInput = document.getElementById('other-title');
+    // hides the HTML input element in otherTitleInput by setting its display 
+    // property to the string 'none'
     otherTitleInput.style.display = 'none';
+    // sets jobRoleMenu to the HTML select element object having id of 'title'
+    const jobRoleMenu = document.getElementById('title');
     // adds change event listener to the html select element object in
     // jobRoleMenu
     jobRoleMenu.addEventListener('change', (e) => {
