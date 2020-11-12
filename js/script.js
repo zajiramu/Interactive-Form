@@ -196,6 +196,8 @@
         if( ! validateName() ) {
             e.preventDefault();
             nameInput.style.borderColor = 'red';
+            const errorMessage = createErrorMessage('*Please enter a name*');
+            nameInput.insertAdjacentElement('beforebegin', errorMessage);
         }
         // checks if email validator returns false
         // i.e. no email / improperly formatted email was entered by user
@@ -238,4 +240,10 @@
      function validateJobRole() {
      }
 
+    function createErrorMessage(errorText) {
+        const span = document.createElement('span');
+        span.innerText = errorText;
+        span.style.color = 'red';
+        return span;
+    }
     
