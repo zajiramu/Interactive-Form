@@ -199,6 +199,20 @@
         }
         // checks if email validator returns false
         // i.e. no email / improperly formatted email was entered by user
+        if( ! validateEmail() ) {
+            e.preventDefault();
+            emailInput.style.borderColor = 'red';
+        }
+
+        // checks if the other option is selected on the job role drop down menu
+        // calls job role validator to check and see if something was entered in the 
+        // other job role text input field
+        if(jobRoleMenu.value == 'other') {
+            if( ! validateJobRole() ) {
+                e.preventDefault();
+                otherTitleInput.style.borderColor = 'red';
+            }
+        }
 
         // checks if activities validator returns false 
         // i.e. no activity was selected 
@@ -217,3 +231,11 @@
      function validateName() {
         return nameInput.value.length == 0 ? false : true;
      }
+
+     function validateEmail() {
+     }
+
+     function validateJobRole() {
+     }
+
+    
