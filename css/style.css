@@ -214,3 +214,15 @@ option {
 		clear: both;
 	}
 }
+
+/* ======================== 
+  Custom classes by U. Ijaz
+=========================== */
+
+/* class used to style span elements (created using JS in script.js) whose innerText property */
+/* holds the form validation error messages */
+
+.error-message {
+	color:red;
+	font-size: 20px;
+}

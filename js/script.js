@@ -167,19 +167,19 @@
     function displayPaymentSection(paymentType) {
         switch(paymentType) {
             case 'credit card':
-                ccDiv.style.display = 'initial';
+                ccDiv.style.display = 'inherit';
                 paypalDiv.style.display = 'none';
                 bitcoinDiv.style.display = 'none';
                 break;
             case 'paypal':
                 ccDiv.style.display = 'none';
-                paypalDiv.style.display = 'initial';
+                paypalDiv.style.display = 'inherit';
                 bitcoinDiv.style.display = 'none';
                 break;
             default:
                 ccDiv.style.display = 'none';
                 paypalDiv.style.display = 'none';
-                bitcoinDiv.style.display = 'initial';
+                bitcoinDiv.style.display = 'inherit';
                 break;
         }
     }
@@ -193,14 +193,26 @@
      submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
         // i.e. no name was entered by user
-        if( ! validateName() ) {
+        if( ! checkName() ) {
             e.preventDefault();
-            nameInput.style.borderColor = 'red';
-            const errorMessage = createErrorMessage('*Please enter a name*');
-            nameInput.insertAdjacentElement('beforebegin', errorMessage);
+            if( nameInput.previousElementSibling.className !== 'error-message' ) {
+                nameInput.style.borderColor = 'red';
+                const errorMessage = createErrorMessage('*Please enter a name*');
+                nameInput.insertAdjacentElement('beforebegin', errorMessage);
+            }
         }
+
+        if( ! checkEmail() ) {
+            e.preventDefault();
+            if(emailInput.previousElementSibling.className !== 'error-message') {
+                emailInput.style.borderColor = 'red';
+                const errorMessage = createErrorMessage('*Please enter an email*');
+                emailInput.insertAdjacentElement('beforebegin', errorMessage);
+            }
+        }
+
         // checks if email validator returns false
-        // i.e. no email / improperly formatted email was entered by user
+        // i.e. improperly formatted email was entered by user
         if( ! validateEmail() ) {
             e.preventDefault();
             emailInput.style.borderColor = 'red';
@@ -230,20 +242,26 @@
             // i.e. if user entered invalid or no cvv
      });
     
-     function validateName() {
+     function checkName() {
         return nameInput.value.length == 0 ? false : true;
      }
 
+     function checkEmail() { 
+        return emailInput.value.length == 0 ? false : true; 
+     }
+
      function validateEmail() {
+         return true;
      }
 
      function validateJobRole() {
+         return true;
      }
 
-    function createErrorMessage(errorText) {
+     function createErrorMessage(errorText) {
         const span = document.createElement('span');
+        span.className = 'error-message';
         span.innerText = errorText;
-        span.style.color = 'red';
         return span;
     }
     
