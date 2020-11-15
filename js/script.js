@@ -191,33 +191,29 @@
      const submitButton = document.getElementsByTagName('button')[0];
     
      submitButton.addEventListener('click', (e) => {
+        
         // checks if name validator returns false 
         // i.e. no name was entered by user
         if( ! checkName() ) {
             e.preventDefault();
             if( nameInput.previousElementSibling.className !== 'error-message' ) {
                 nameInput.style.borderColor = 'red';
-                const errorMessage = createErrorMessage('*Please enter a name*');
-                nameInput.insertAdjacentElement('beforebegin', errorMessage);
+                appendErrorMessage(nameInput, '*Please enter a name*');
             }
         }
 
         if( ! checkEmail() ) {
             e.preventDefault();
-            if(emailInput.previousElementSibling.className !== 'error-message') {
+            if( emailInput.previousElementSibling.className !== 'error-message' ) {
                 emailInput.style.borderColor = 'red';
-                const errorMessage = createErrorMessage('*Please enter an email*');
-                emailInput.insertAdjacentElement('beforebegin', errorMessage);
+                appendErrorMessage(emailInput, '*Please enter an email*');
             }
         }
-
         // checks if email validator returns false
         // i.e. improperly formatted email was entered by user
         if( ! validateEmail() ) {
             e.preventDefault();
-            emailInput.style.borderColor = 'red';
         }
-
         // checks if the other option is selected on the job role drop down menu
         // calls job role validator to check and see if something was entered in the 
         // other job role text input field
@@ -227,7 +223,6 @@
                 otherTitleInput.style.borderColor = 'red';
             }
         }
-
         // checks if activities validator returns false 
         // i.e. no activity was selected 
 
@@ -240,8 +235,9 @@
 
             // checks if cvv validator returned false 
             // i.e. if user entered invalid or no cvv
+        
      });
-    
+
      function checkName() {
         return nameInput.value.length == 0 ? false : true;
      }
@@ -258,10 +254,16 @@
          return true;
      }
 
+     function appendErrorMessage(elementObject, errorMessage) {
+         const errorMessageSpan = createErrorMessage(errorMessage);
+         elementObject.insertAdjacentElement('beforebegin', errorMessageSpan);
+     }
+    
      function createErrorMessage(errorText) {
         const span = document.createElement('span');
         span.className = 'error-message';
         span.innerText = errorText;
         return span;
-    }
-    
+     }
+
+     
