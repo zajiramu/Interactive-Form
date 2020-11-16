@@ -116,15 +116,14 @@
 
     function updateTotalDisplay(sum) {
         if(sum != 0) {
-            const span = activitiesFieldset.querySelector('span');
-            if(span) {
+            const totalSpan = activitiesFieldset.getElementById('total');
+            if(totalSpan) {
                 let regex = /\d{3}/g;
-                span.innerText = span.innerText.replace(regex, `${sum}`);
+                totalSpan.innerText = totalSpan.innerText.replace(regex, `${sum}`);
             }
             else {
-                const totalSpan = document.createElement('span');
-                totalSpan.innerText = `Total: $${sum}`;
-                activitiesFieldset.insertAdjacentElement('beforeend', totalSpan);
+                const totalSpan = `<span id='total'> Total: $${sum}</span>`;
+                activitiesFieldset.insertAdjacentHTML('beforeend', totalSpan);
             }
         }
         else { activitiesFieldset.getElementsByTagName('span')[0].remove(); }
@@ -191,7 +190,6 @@
      const submitButton = document.getElementsByTagName('button')[0];
     
      submitButton.addEventListener('click', (e) => {
-        
         // checks if name validator returns false 
         // i.e. no name was entered by user
         if( ! checkName() ) {
