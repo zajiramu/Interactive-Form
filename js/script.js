@@ -101,6 +101,8 @@
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
 
+    
+
     let total = 0;
 
     activitiesFieldset.addEventListener('click', e => {
@@ -108,9 +110,11 @@
         if(elementName === 'INPUT') {
             const checkbox = e.target;
             const price = parseInt( checkbox.getAttribute('data-cost') );
-            const dayAndTime = checkbox.getAttribute('data-day-and-time');
-            total = (checkbox.checked ? total+price : total-price);       
-            updateTotalDisplay(total);
+            const name = checkbox.getAttribute('name');
+            const dayAndTime = checkbox.getAttribute('data-day-and-time');  
+            checkbox.checked ? total += price : total -= price;
+            handleConflicts(name, dayAndTime, checkbox.checked);
+            updateTotalDisplay(total); 
         }
     });
 
@@ -129,8 +133,24 @@
         else { activitiesFieldset.querySelector('#total-cost').remove(); }
     }
 
-    function handleConflicts(dayAndTime, checkboxState) {
+    const checkBoxes = activitiesFieldset.getElementsByTagName('input');
 
+    function handleConflicts(name, dayAndTime, isChecked) {
+        for( let i = 0; i < checkBoxes.length; i++) {
+            const currCheckBox = checkBoxes.item(i);
+            const currCheckBox_Name = currCheckBox.getAttribute('name');
+            const currCheckBox_DayAndTime = currCheckBox.getAttribute('data-day-and-time');
+            if( currCheckBox_DayAndTime == dayAndTime && currCheckBox_Name != name  ) { 
+                if(isChecked) {
+                    currCheckBox.disabled = true;
+                    currCheckBox.parentElement.style.color = 'gray';
+                }
+                else {
+                    currCheckBox.disabled = false;
+                    currCheckBox.parentElement.style.color = '#000';
+                } 
+            }
+        }
     }
 
 //=============================
