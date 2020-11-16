@@ -108,28 +108,28 @@
         if(elementName === 'INPUT') {
             const checkbox = e.target;
             const price = parseInt( checkbox.getAttribute('data-cost') );
-            total = (checkbox.checked ? total+price : total-price);           
-            updateTotalDisplay(total);
             const dayAndTime = checkbox.getAttribute('data-day-and-time');
+            total = (checkbox.checked ? total+price : total-price);       
+            updateTotalDisplay(total);
         }
     });
 
     function updateTotalDisplay(sum) {
         if(sum != 0) {
-            const totalSpan = activitiesFieldset.getElementById('total');
+            const totalSpan = activitiesFieldset.querySelector('#total-cost');
             if(totalSpan) {
                 let regex = /\d{3}/g;
                 totalSpan.innerText = totalSpan.innerText.replace(regex, `${sum}`);
             }
             else {
-                const totalSpan = `<span id='total'> Total: $${sum}</span>`;
+                const totalSpan = `<span id='total-cost'> Total: $${sum}</span>`;
                 activitiesFieldset.insertAdjacentHTML('beforeend', totalSpan);
             }
         }
-        else { activitiesFieldset.getElementsByTagName('span')[0].remove(); }
+        else { activitiesFieldset.querySelector('#total-cost').remove(); }
     }
 
-    function handleConflicts(dayAndTime) {
+    function handleConflicts(dayAndTime, checkboxState) {
 
     }
 
