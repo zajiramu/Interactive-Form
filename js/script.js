@@ -14,21 +14,48 @@
 
     // sets otherTitleInput to HTML input element object with id 'other-title'
     const otherTitleInput = document.getElementById('other-title');
+    //otherTitleInput.style.text = 'gray';
+    const placeholder = otherTitleInput.value;
     // hides the HTML input element in otherTitleInput by setting its display 
     // property to the string 'none'
     otherTitleInput.style.display = 'none';
     // sets jobRoleMenu to the HTML select element object having id of 'title'
     const jobRoleMenu = document.getElementById('title');
+
+    
+    
     // adds change event listener to the html select element object in
     // jobRoleMenu
     jobRoleMenu.addEventListener('change', (e) => {
+        removeErrorMessage(otherTitleInput);
+        //otherTitleInput.style.borderColor = 'inherit';
         // sets jobRole to the value chosen by the user on the drop down
         // menu (as a string)
         const jobRole = e.target.value;
         // checks if the user chose the 'Other' option from the drop down 
         // menu by comparing the string in jobRole to the string 'other'
         // shows text input field if user selects 'Other' from the drop down menu
-        jobRole === 'other' ? otherTitleInput.style.display = 'initial' : otherTitleInput.style.display = 'none'; 
+        if( jobRole === 'other' ) {
+            otherTitleInput.style.display = '';
+            otherTitleInput.style.color = 'gray';
+            otherTitleInput.style.border = '2px solid rgb(111, 157, 220)';
+            otherTitleInput.value = placeholder;
+        } 
+        else { otherTitleInput.style.display = 'none'; }
+    });
+
+    otherTitleInput.addEventListener('focus', (e) => {
+        if( e.target.value === placeholder ) { 
+            e.target.style.color = 'black';
+            e.target.value = ''; 
+        }
+    });
+
+    otherTitleInput.addEventListener('blur', (e) => {
+         if( ! e.target.value ) { 
+             e.target.style.color = 'gray';
+             e.target.value = placeholder; 
+         }
     });
 
 //=============================
@@ -153,6 +180,10 @@
         }
     }
 
+    function handleActivitiesError() {
+        const errorSpan = activitiesFieldset.getElementsByClassName()
+    }
+
 //=============================
 // (7) - "Payment Info" section
 //=============================
@@ -212,7 +243,7 @@
      submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
         // i.e. no name was entered by user
-        if( ! checkName() ) {
+        if( ! hasName() ) {
             e.preventDefault();
             if( nameInput.previousElementSibling.className !== 'error-message' ) {
                 nameInput.style.borderColor = 'red';
@@ -220,30 +251,30 @@
             }
         }
 
-        if( ! checkEmail() ) {
+        if( ! isValidEmail() ) {
             e.preventDefault();
             if( emailInput.previousElementSibling.className !== 'error-message' ) {
                 emailInput.style.borderColor = 'red';
-                appendErrorMessage(emailInput, '*Please enter an email*');
+                appendErrorMessage(emailInput, '*Invalid Email*');
             }
-        }
-        // checks if email validator returns false
-        // i.e. improperly formatted email was entered by user
-        if( ! validateEmail() ) {
-            e.preventDefault();
         }
         // checks if the other option is selected on the job role drop down menu
         // calls job role validator to check and see if something was entered in the 
         // other job role text input field
         if(jobRoleMenu.value == 'other') {
-            if( ! validateJobRole() ) {
+            if( ! isValidJobRole() ) {
                 e.preventDefault();
-                otherTitleInput.style.borderColor = 'red';
+                if( otherTitleInput.previousElementSibling.className !== 'error-message' ) {
+                    otherTitleInput.style.borderColor = 'red';
+                    appendErrorMessage(otherTitleInput, '*Please enter a job role*');
+                }
             }
         }
         // checks if activities validator returns false 
         // i.e. no activity was selected 
-
+        if( ! isActivitySelected() ) {
+            
+        }
         // checks if credit card is the selected payment method
             // checks if credit card number validator returned false 
             // i.e. if user entered invalid or no cc number
@@ -256,20 +287,22 @@
         
      });
 
-     function checkName() {
+     function hasName() {
         return nameInput.value.length == 0 ? false : true;
      }
 
-     function checkEmail() { 
-        return emailInput.value.length == 0 ? false : true; 
+     function isValidEmail() {
+         if( emailInput.value.length == 0 ) { return false; }
+         return /[^@]+@[^@.]+\.[a-z]+/i.test(emailInput.value);
      }
 
-     function validateEmail() {
-         return true;
+     function isValidJobRole() {
+         const jobRole = otherTitleInput.value;
+         return ( jobRole == placeholder || jobRole == '') ? (false) : (true);
      }
 
-     function validateJobRole() {
-         return true;
+     function isActivitySelected() {
+
      }
 
      function appendErrorMessage(elementObject, errorMessage) {
@@ -280,8 +313,13 @@
      function createErrorMessage(errorText) {
         const span = document.createElement('span');
         span.className = 'error-message';
-        span.innerText = errorText;
+        span.innerText = errorText; 
         return span;
      }
-
+     
+     function removeErrorMessage(elementObject) {
+         if(elementObject.previousElementSibling.className == 'error-message') {
+             elementObject.previousElementSibling.remove();
+         }
+     }
      
