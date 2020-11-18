@@ -128,8 +128,6 @@
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
 
-    
-
     let total = 0;
 
     activitiesFieldset.addEventListener('click', e => {
@@ -273,7 +271,7 @@
         // checks if activities validator returns false 
         // i.e. no activity was selected 
         if( ! isActivitySelected() ) {
-            
+
         }
         // checks if credit card is the selected payment method
             // checks if credit card number validator returned false 
@@ -302,7 +300,10 @@
      }
 
      function isActivitySelected() {
-
+        for(let i = 0; i < checkBoxes.length; i++) {
+            if(checkBoxes.item(i).checked) { return true; }
+        }
+        return false;
      }
 
      function appendErrorMessage(elementObject, errorMessage) {
