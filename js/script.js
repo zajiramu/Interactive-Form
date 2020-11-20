@@ -236,14 +236,18 @@
 // (8) - Form Validation
 //======================
      const emailInput = document.querySelector('#mail');
+     
+     const ccNumInput = document.getElementById('cc-num');
+     const zipCodeInput = document.getElementById('zip');
+     const cvvInput = document.getElementById('cvv');
+
      const submitButton = document.getElementsByTagName('button')[0];
-    
      submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
         // i.e. no name was entered by user
-        if( ! hasName() ) {
+        if( ! isValidName() ) {
             e.preventDefault();
-            if( nameInput.previousElementSibling.className !== 'error-message' ) {
+            if( ! hasErrorMessage(nameInput) ) {
                 nameInput.style.borderColor = 'red';
                 appendErrorMessage(nameInput, '*Please enter a name*');
             }
@@ -251,7 +255,7 @@
 
         if( ! isValidEmail() ) {
             e.preventDefault();
-            if( emailInput.previousElementSibling.className !== 'error-message' ) {
+            if( ! hasErrorMessage(emailInput) ) {
                 emailInput.style.borderColor = 'red';
                 appendErrorMessage(emailInput, '*Invalid Email*');
             }
@@ -262,7 +266,7 @@
         if(jobRoleMenu.value == 'other') {
             if( ! isValidJobRole() ) {
                 e.preventDefault();
-                if( otherTitleInput.previousElementSibling.className !== 'error-message' ) {
+                if( ! hasErrorMessage(otherTitleInput) ) {
                     otherTitleInput.style.borderColor = 'red';
                     appendErrorMessage(otherTitleInput, '*Please enter a job role*');
                 }
@@ -271,21 +275,47 @@
         // checks if activities validator returns false 
         // i.e. no activity was selected 
         if( ! isActivitySelected() ) {
-
+            e.preventDefault();
+            const firstActivityLabel = activitiesFieldset.getElementsByTagName('label').item(0);
+            
+            if( ! hasErrorMessage(firstActivityLabel) ) {
+                appendErrorMessage( firstActivityLabel, '*Please select at least one activity*');
+                addCheckboxesHighlight();
+            }
         }
         // checks if credit card is the selected payment method
+        if(paymentMenu.value === 'credit card') {
             // checks if credit card number validator returned false 
             // i.e. if user entered invalid or no cc number
-
+            if( ! isValidCCNum() ) {
+                e.preventDefault();
+                if( ! hasErrorMessage(ccNumInput) ) {
+                    ccNumInput.style.borderColor = 'red';
+                    appendErrorMessage(ccNumInput, '*Invalid Credit Card Number*');
+                }
+            }
             // checks if zip code validator returned false 
             // i.e. if user entered invalid or no zip code
-
+            if( ! isValidZipCode() ) {
+                e.preventDefault();
+                if( ! hasErrorMessage(zipCodeInput) ) {
+                    zipCodeInput.style.borderColor = 'red';
+                    appendErrorMessage(zipCodeInput, '*Invalid Zip Code*');
+                }
+            }
             // checks if cvv validator returned false 
             // i.e. if user entered invalid or no cvv
-        
+            if( ! isValidCVV() ) {
+                e.preventDefault();
+                if( ! hasErrorMessage(cvvInput) ) {
+                    cvvInput.style.borderColor = 'red';
+                    appendErrorMessage(cvvInput, '*Invalid CVV*');
+                }
+            }
+        }
      });
 
-     function hasName() {
+     function isValidName() {
         return nameInput.value.length == 0 ? false : true;
      }
 
@@ -305,6 +335,33 @@
         }
         return false;
      }
+     
+     function isValidCCNum() {
+        if( ccNumInput.value.length == 0 ) { return false; }
+        return /^[0-9]{13,16}$/.test(ccNumInput.value);
+     }
+
+     function isValidZipCode() {
+        if( zipCodeInput.value.length == 0 ) { return false; }
+        return /^[0-9]{5}$/.test(zipCodeInput.value);
+     }
+
+     function isValidCVV() {
+        if( cvvInput.value.length == 0 ) { return false; }
+        return /^[0-9]{3}$/.test(cvvInput.value);
+     }
+
+     function addCheckboxesHighlight() {
+        for( let checkbox of checkBoxes ) {
+            checkbox.style.boxShadow = '1px 1px 12px red';
+        }
+     }
+
+     function removeCheckboxesHighlight() {
+        for( let checkbox of checkBoxes ) {
+            checkbox.style.boxShadow = 'none';
+        }
+     }
 
      function appendErrorMessage(elementObject, errorMessage) {
          const errorMessageSpan = createErrorMessage(errorMessage);
@@ -318,8 +375,12 @@
         return span;
      }
      
+     function hasErrorMessage(elementObject) {
+        return (elementObject.previousElementSibling.className !== 'error-message') ? (false) : (true);
+     }
+
      function removeErrorMessage(elementObject) {
-         if(elementObject.previousElementSibling.className == 'error-message') {
+         if( hasErrorMessage(elementObject) ) {
              elementObject.previousElementSibling.remove();
          }
      }
