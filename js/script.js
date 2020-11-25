@@ -7,42 +7,33 @@
     // calls function focus on input element in nameInput to set focus 
     // to it upon page loading 
     nameInput.focus();
-
 //=========================
 // (4) - "Job Role" section
 //=========================
 
     // sets otherTitleInput to HTML input element object with id 'other-title'
     const otherTitleInput = document.getElementById('other-title');
-    //otherTitleInput.style.text = 'gray';
-    const placeholder = otherTitleInput.value;
+    // changes text color of the HTML text input element object in otherTitleInput to gray
+    otherTitleInput.style.color = 'gray';
     // hides the HTML input element in otherTitleInput by setting its display 
     // property to the string 'none'
     otherTitleInput.style.display = 'none';
     // sets jobRoleMenu to the HTML select element object having id of 'title'
     const jobRoleMenu = document.getElementById('title');
-
-    
-    
     // adds change event listener to the html select element object in
     // jobRoleMenu
     jobRoleMenu.addEventListener('change', (e) => {
-        removeErrorMessage(otherTitleInput);
-        //otherTitleInput.style.borderColor = 'inherit';
         // sets jobRole to the value chosen by the user on the drop down
-        // menu (as a string)
+        // menu, as a string
         const jobRole = e.target.value;
         // checks if the user chose the 'Other' option from the drop down 
         // menu by comparing the string in jobRole to the string 'other'
         // shows text input field if user selects 'Other' from the drop down menu
-        if( jobRole === 'other' ) {
-            otherTitleInput.style.display = '';
-            otherTitleInput.style.color = 'gray';
-            otherTitleInput.style.border = '2px solid rgb(111, 157, 220)';
-            otherTitleInput.value = placeholder;
         } 
-        else { otherTitleInput.style.display = 'none'; }
+        jobRole === 'other' ? otherTitleInput.style.display = '' : otherTitleInput.style.display = 'none'; 
     });
+
+    const placeholder = otherTitleInput.value;
 
     otherTitleInput.addEventListener('focus', (e) => {
         if( e.target.value === placeholder ) { 
@@ -137,7 +128,12 @@
             const price = parseInt( checkbox.getAttribute('data-cost') );
             const name = checkbox.getAttribute('name');
             const dayAndTime = checkbox.getAttribute('data-day-and-time');  
-            checkbox.checked ? total += price : total -= price;
+            if(checkbox.checked) {
+                total += price;
+            }
+            else {
+                total -= price;
+            }
             handleConflicts(name, dayAndTime, checkbox.checked);
             updateTotalDisplay(total); 
         }
@@ -178,9 +174,7 @@
         }
     }
 
-    function handleActivitiesError() {
-        const errorSpan = activitiesFieldset.getElementsByClassName()
-    }
+    
 
 //=============================
 // (7) - "Payment Info" section
@@ -240,7 +234,7 @@
      const ccNumInput = document.getElementById('cc-num');
      const zipCodeInput = document.getElementById('zip');
      const cvvInput = document.getElementById('cvv');
-
+    
      const submitButton = document.getElementsByTagName('button')[0];
      submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
@@ -276,12 +270,7 @@
         // i.e. no activity was selected 
         if( ! isActivitySelected() ) {
             e.preventDefault();
-            const firstActivityLabel = activitiesFieldset.getElementsByTagName('label').item(0);
-            
-            if( ! hasErrorMessage(firstActivityLabel) ) {
-                appendErrorMessage( firstActivityLabel, '*Please select at least one activity*');
-                addCheckboxesHighlight();
-            }
+            showActivitiesError();
         }
         // checks if credit card is the selected payment method
         if(paymentMenu.value === 'credit card') {
@@ -351,18 +340,6 @@
         return /^[0-9]{3}$/.test(cvvInput.value);
      }
 
-     function addCheckboxesHighlight() {
-        for( let checkbox of checkBoxes ) {
-            checkbox.style.boxShadow = '1px 1px 12px red';
-        }
-     }
-
-     function removeCheckboxesHighlight() {
-        for( let checkbox of checkBoxes ) {
-            checkbox.style.boxShadow = 'none';
-        }
-     }
-
      function appendErrorMessage(elementObject, errorMessage) {
          const errorMessageSpan = createErrorMessage(errorMessage);
          elementObject.insertAdjacentElement('beforebegin', errorMessageSpan);
@@ -383,5 +360,28 @@
          if( hasErrorMessage(elementObject) ) {
              elementObject.previousElementSibling.remove();
          }
+     }
+
+     function showActivitiesError() {
+         if( ! checkActivitiesError() ) {
+            const errorMessageSpan = createErrorMessage('*Please select at least one activity*');
+            activitiesFieldset.firstElementChild.insertAdjacentElement('afterend', errorMessageSpan);
+            for( let checkbox of checkBoxes ) {
+                checkbox.style.boxShadow = '1px 1px 12px red';
+            }
+         }
+     }
+
+     function removeActivitiesError() {
+         if( checkActivitiesError() ) {
+            activitiesFieldset.querySelector('.error-message').remove();
+            for( let checkbox of checkBoxes ) {
+                checkbox.style.boxShadow = 'none';
+            }
+         }
+     }
+
+     function checkActivitiesError() {
+         return  activitiesFieldset.querySelector('.error-message') ? true : false;
      }
      
