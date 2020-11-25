@@ -15,13 +15,13 @@
 // (4) - "Job Role" section
 //=========================
 
-    // sets otherTitleInput to HTML input element object with id 'other-title'
-    const otherTitleInput = document.getElementById('other-title');
-    // changes text color of the HTML text input element object in otherTitleInput to gray
-    otherTitleInput.style.color = 'gray';
-    // hides the HTML input element in otherTitleInput by setting its display 
+    // sets otherJobInput to HTML input element object with id 'other-title'
+    const otherJobInput = document.getElementById('other-title');
+    // changes text color of the HTML text input element object in otherJobInput to gray
+    otherJobInput.style.color = 'gray';
+    // hides the HTML input element in otherJobInput by setting its display 
     // property to the string 'none'
-    otherTitleInput.style.display = 'none';
+    otherJobInput.style.display = 'none';
     // sets jobRoleMenu to the HTML select element object having id of 'title'
     const jobRoleMenu = document.getElementById('title');
     // adds change event listener to the html select element object in
@@ -33,22 +33,30 @@
         // checks if the user chose the 'Other' option from the drop down 
         // menu by comparing the string in jobRole to the string 'other'
         // shows text input field if user selects 'Other' from the drop down menu
-        jobRole === 'other' ? otherTitleInput.style.display = '' : otherTitleInput.style.display = 'none'; 
+        if( jobRole === 'other' ) {
+            otherJobInput.style.display = '';
+        }
+        else {
+            removeTextInputError(otherJobInput);
+            otherJobInput.style.display = 'none';
+        }  
     });
 
-    const placeholder = otherTitleInput.value;
+    const placeholder = otherJobInput.value;
 
-    otherTitleInput.addEventListener('focus', (e) => {
+    otherJobInput.addEventListener('focus', (e) => {
         if( e.target.value === placeholder ) { 
-            e.target.style.color = 'black';
             e.target.value = ''; 
+            e.target.style.color = 'black';
+            removeTextInputError(otherJobInput); 
         }
     });
 
-    otherTitleInput.addEventListener('blur', (e) => {
+    otherJobInput.addEventListener('blur', (e) => {
          if( ! e.target.value ) { 
              e.target.style.color = 'gray';
              e.target.value = placeholder; 
+             showTextInputError(otherJobInput, '*Please enter a job title*');
          }
     });
 
@@ -260,7 +268,7 @@
         if(jobRoleMenu.value == 'other') {
             if( ! isValidJobRole() ) {
                 e.preventDefault();
-                showTextInputError(otherTitleInput, '*Please enter a job title*');
+                showTextInputError(otherJobInput, '*Please enter a job title*');
             }
         }
         // checks if activities validator returns false 
@@ -302,7 +310,7 @@
      }
 
      function isValidJobRole() {
-         const jobRole = otherTitleInput.value;
+         const jobRole = otherJobInput.value;
          return ( jobRole == placeholder || jobRole == '') ? (false) : (true);
      }
 
