@@ -7,6 +7,10 @@
     // calls function focus on input element in nameInput to set focus 
     // to it upon page loading 
     nameInput.focus();
+    nameInput.addEventListener('input', e => {
+        if(e.target.value == '') { showTextInputError(nameInput, '*Please enter a name*'); }
+        else { removeTextInputError(nameInput); }
+    });
 //=========================
 // (4) - "Job Role" section
 //=========================
@@ -129,9 +133,11 @@
             const dayAndTime = checkbox.getAttribute('data-day-and-time');  
             if(checkbox.checked) {
                 total += price;
+                removeActivitiesError();
             }
             else {
                 total -= price;
+                if(total==0) { showActivitiesError(); }
             }
             handleConflicts(name, dayAndTime, checkbox.checked);
             updateTotalDisplay(total); 
@@ -235,23 +241,18 @@
      const cvvInput = document.getElementById('cvv');
     
      const submitButton = document.getElementsByTagName('button')[0];
+
      submitButton.addEventListener('click', (e) => {
         // checks if name validator returns false 
         // i.e. no name was entered by user
         if( ! isValidName() ) {
             e.preventDefault();
-            if( ! hasErrorMessage(nameInput) ) {
-                nameInput.style.borderColor = 'red';
-                appendErrorMessage(nameInput, '*Please enter a name*');
-            }
+            showTextInputError(nameInput, '*Please enter a name*');
         }
 
         if( ! isValidEmail() ) {
             e.preventDefault();
-            if( ! hasErrorMessage(emailInput) ) {
-                emailInput.style.borderColor = 'red';
-                appendErrorMessage(emailInput, '*Invalid Email*');
-            }
+            showTextInputError(emailInput, '*Invalid email*');
         }
         // checks if the other option is selected on the job role drop down menu
         // calls job role validator to check and see if something was entered in the 
@@ -259,10 +260,7 @@
         if(jobRoleMenu.value == 'other') {
             if( ! isValidJobRole() ) {
                 e.preventDefault();
-                if( ! hasErrorMessage(otherTitleInput) ) {
-                    otherTitleInput.style.borderColor = 'red';
-                    appendErrorMessage(otherTitleInput, '*Please enter a job role*');
-                }
+                showTextInputError(otherTitleInput, '*Please enter a job title*');
             }
         }
         // checks if activities validator returns false 
@@ -277,28 +275,19 @@
             // i.e. if user entered invalid or no cc number
             if( ! isValidCCNum() ) {
                 e.preventDefault();
-                if( ! hasErrorMessage(ccNumInput) ) {
-                    ccNumInput.style.borderColor = 'red';
-                    appendErrorMessage(ccNumInput, '*Invalid Credit Card Number*');
-                }
+                showTextInputError(ccNumInput, '*Invalid Card Number*');
             }
             // checks if zip code validator returned false 
             // i.e. if user entered invalid or no zip code
             if( ! isValidZipCode() ) {
                 e.preventDefault();
-                if( ! hasErrorMessage(zipCodeInput) ) {
-                    zipCodeInput.style.borderColor = 'red';
-                    appendErrorMessage(zipCodeInput, '*Invalid Zip Code*');
-                }
+                showTextInputError(zipCodeInput, '*Invalid Zip Code*');
             }
             // checks if cvv validator returned false 
             // i.e. if user entered invalid or no cvv
             if( ! isValidCVV() ) {
                 e.preventDefault();
-                if( ! hasErrorMessage(cvvInput) ) {
-                    cvvInput.style.borderColor = 'red';
-                    appendErrorMessage(cvvInput, '*Invalid CVV*');
-                }
+                showTextInputError(cvvInput, '*Invalid CVV*');
             }
         }
      });
@@ -339,25 +328,25 @@
         return /^[0-9]{3}$/.test(cvvInput.value);
      }
 
-     
-     
-     function hasErrorMessage(elementObject) {
-        return (elementObject.previousElementSibling.className !== 'error-message') ? (false) : (true);
-     }
+     function showTextInputError(textInputElement, errorText) {
+         if( ! checkTextInputError(textInputElement) ) {
+            textInputElement.style.borderColor = 'red';
+            const errorMessageSpan = `<span class="error-message">${errorText}</span>`;
+            textInputElement.insertAdjacentHTML('beforebegin', errorMessageSpan);
+         }
+     } 
 
-     function removeErrorMessage(elementObject) {
-         if( hasErrorMessage(elementObject) ) {
-             elementObject.previousElementSibling.remove();
+     function removeTextInputError(textInputElement) {
+         if( checkTextInputError(textInputElement) ) {
+            textInputElement.style.borderColor = '';
+            textInputElement.previousElementSibling.remove();
          }
      }
 
-     function showTextInputError(textInputElement, errorText) {
-        textInputElement.style.borderColor = 'red';
-        const errorMessageSpan = `<span class="error-message">${errorText}</span>`;
-        textInputElement.insertAdjacentHTML('beforebegin', errorMessageSpan);
-     } 
-
-     
+     function checkTextInputError(textInputElement) {
+        if( textInputElement.previousElementSibling.className == 'error-message' ) { return true; } 
+        return false;
+     }
 
      function showActivitiesError() {
          if( ! checkActivitiesError() ) {
