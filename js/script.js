@@ -29,7 +29,6 @@
         // checks if the user chose the 'Other' option from the drop down 
         // menu by comparing the string in jobRole to the string 'other'
         // shows text input field if user selects 'Other' from the drop down menu
-        } 
         jobRole === 'other' ? otherTitleInput.style.display = '' : otherTitleInput.style.display = 'none'; 
     });
 
@@ -340,17 +339,7 @@
         return /^[0-9]{3}$/.test(cvvInput.value);
      }
 
-     function appendErrorMessage(elementObject, errorMessage) {
-         const errorMessageSpan = createErrorMessage(errorMessage);
-         elementObject.insertAdjacentElement('beforebegin', errorMessageSpan);
-     }
-    
-     function createErrorMessage(errorText) {
-        const span = document.createElement('span');
-        span.className = 'error-message';
-        span.innerText = errorText; 
-        return span;
-     }
+     
      
      function hasErrorMessage(elementObject) {
         return (elementObject.previousElementSibling.className !== 'error-message') ? (false) : (true);
@@ -362,10 +351,18 @@
          }
      }
 
+     function showTextInputError(textInputElement, errorText) {
+        textInputElement.style.borderColor = 'red';
+        const errorMessageSpan = `<span class="error-message">${errorText}</span>`;
+        textInputElement.insertAdjacentHTML('beforebegin', errorMessageSpan);
+     } 
+
+     
+
      function showActivitiesError() {
          if( ! checkActivitiesError() ) {
-            const errorMessageSpan = createErrorMessage('*Please select at least one activity*');
-            activitiesFieldset.firstElementChild.insertAdjacentElement('afterend', errorMessageSpan);
+            const errorMessageSpan = `<span class="error-message">*Please select at least one activity*</span>`;
+            activitiesFieldset.firstElementChild.insertAdjacentHTML('afterend', errorMessageSpan);
             for( let checkbox of checkBoxes ) {
                 checkbox.style.boxShadow = '1px 1px 12px red';
             }
