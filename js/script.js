@@ -11,10 +11,24 @@
         if(e.target.value == '') { showTextInputError(nameInput, '*Please enter a name*'); }
         else { removeTextInputError(nameInput); }
     });
-//=========================
-// (4) - "Job Role" section
-//=========================
 
+//=================================
+// (4) - Email Input Error Handling
+//=================================
+
+    const emailInput = document.querySelector('#mail');
+    emailInput.addEventListener('input', e => {
+        if( isValidEmail() ) {
+            removeTextInputError(emailInput);
+        }
+        else {
+            showTextInputError(emailInput, '*Invalid Email*');
+        }
+    });
+
+//=========================
+// (5) - "Job Role" section
+//=========================
     // sets otherJobInput to HTML input element object with id 'other-title'
     const otherJobInput = document.getElementById('other-title');
     // changes text color of the HTML text input element object in otherJobInput to gray
@@ -48,7 +62,6 @@
         if( e.target.value === placeholder ) { 
             e.target.value = ''; 
             e.target.style.color = 'black';
-            removeTextInputError(otherJobInput); 
         }
     });
 
@@ -56,12 +69,21 @@
          if( ! e.target.value ) { 
              e.target.style.color = 'gray';
              e.target.value = placeholder; 
-             showTextInputError(otherJobInput, '*Please enter a job title*');
          }
     });
 
+    otherJobInput.addEventListener('input', e => {
+        const jobRole = e.target.value;
+        if( jobRole == '' ) {
+            showTextInputError(otherJobInput, '*Please Enter a Job Title*');
+        }
+        else {
+            removeTextInputError(otherJobInput);
+        }
+    });
+
 //=============================
-// (5) - "T-Shirt" info section
+// (6) - "T-Shirt" info section
 //=============================
     const shirtColorMenu = document.getElementById('color');
     const shirtColorMenuLabel = shirtColorMenu.previousElementSibling;
@@ -126,7 +148,7 @@
     }
 
 //========================================
-// (6) - "Register for Activities" section
+// (7) - "Register for Activities" section
 //========================================
     const activitiesFieldset = document.querySelector('.activities');
 
@@ -187,10 +209,8 @@
         }
     }
 
-    
-
 //=============================
-// (7) - "Payment Info" section
+// (8) - "Payment Info" section
 //=============================
     const paymentMenu = document.getElementById('payment');
 
@@ -240,10 +260,8 @@
     }
     
 //======================
-// (8) - Form Validation
+// (9) - Form Validation
 //======================
-     const emailInput = document.querySelector('#mail');
-     
      const ccNumInput = document.getElementById('cc-num');
      const zipCodeInput = document.getElementById('zip');
      const cvvInput = document.getElementById('cvv');
@@ -378,4 +396,5 @@
      function checkActivitiesError() {
          return  activitiesFieldset.querySelector('.error-message') ? true : false;
      }
-     
+
+
